@@ -1,0 +1,30 @@
+name:           duck
+version:        0.1
+description:    An experiment in theorem proving languages
+license:        BSD2
+license-file:   LICENSE
+Author:         Geoffrey Irving
+maintainer:     irving@naml.us
+category:       Compilers/Interpreters
+build-Type:     Simple
+Cabal-Version:  >= 1.2
+
+flag debug
+  description: Enable debug support
+  default:     True
+
+executable kelvin
+  main-is: Kelvin.hs
+  build-depends: base >= 4 && < 5
+  other-modules:
+    
+
+    hs-source-dirs:  duck
+    c-sources:          duck/runtime.c
+    if flag(debug)
+        ghc-options:  -Wall -fwarn-tabs -fno-warn-missing-signatures -fno-warn-name-shadowing -fno-warn-orphans
+        if impl(ghc >= 7)
+            ghc-options: -rtsopts -debug -auto-all -fno-warn-lazy-unlifted-bindings
+    if flag(boehm)
+        cpp-options:     -DUSE_BOEHM
+        extra-libraries: gc
